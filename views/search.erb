@@ -3,3 +3,29 @@
   <input id="search" type="text" name="search">
   <input type="submit" value="Search">
 </form>
+
+<script type="text/javascript">
+  $(function() {
+  	var dict = []
+
+    $("#search").autocomplete({
+      source: function(request, response) {
+        $.ajax({
+          url: '/',
+          dataType: 'json',
+          data: {
+            search: request.term
+          },
+          success: function( data ) {
+          	$.each(data, function(value) {
+          		$.each(data.items, function(item) {
+          			dict.push(data.items[item].htmlSnippet)
+          		})
+          	})
+            response(dict)
+          }
+        });
+      }
+    });
+  });
+</script>
